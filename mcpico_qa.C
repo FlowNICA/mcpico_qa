@@ -255,6 +255,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
     }, {"protons_projectile"})
     .Define("N_prot_targ", [](RVec<fourVector> _p){ return (float)_p.size(); }, {"protons_target"})
     .Define("N_prot_proj", [](RVec<fourVector> _p){ return (float)_p.size(); }, {"protons_projectile"})
+    .Define("N_prot_targ_proj_ratio", [](float _ntarg, float _nproj){ return (float)(_ntarg/_nproj); }, {"N_prot_targ", "N_prot_proj"})
     ;
 
   TFile fOut(outfile.c_str(),"recreate");
@@ -292,8 +293,9 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
   hists.push_back(dd.Histo1D({"h1_pionM_en",";E (GeV)",500,0.,5.}, "pionM_en"));
   hists.push_back(dd.Histo1D({"h1_pionP_en",";E (GeV)",500,0.,5.}, "pionP_en"));
 
-  hists.push_back(dd.Histo1D({"h1_prot_targ_N","Number of target protons;N_{targ}^{prot}",500,0.,500.},     "N_prot_targ"));
-  hists.push_back(dd.Histo1D({"h1_prot_proj_N","Number of projectile protons;N_{proj}^{prot}",500,0.,500.}, "N_prot_proj"));
+  hists.push_back(dd.Histo1D({"h1_prot_targ_N","Number of target protons;N_{targ}",500,0.,500.},     "N_prot_targ"));
+  hists.push_back(dd.Histo1D({"h1_prot_proj_N","Number of projectile protons;N_{proj}",500,0.,500.}, "N_prot_proj"));
+  hists.push_back(dd.Histo1D({"h1_prot_targ_proj_ratio","N_{targ}/N_{proj} pf protons;N_{targ}/N_{proj}",500,0.,50.}, "N_prot_targ_proj_ratio"));
   
   hists2d.push_back(dd.Histo2D({"h2_hadr_pTY","p_{T}-Y acceptance;y;p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "y", "pT"));
   hists2d.push_back(dd.Histo2D({"h2_prot_pTY","p_{T}-Y acceptance (p);y;p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "prot_y", "prot_pT"));
