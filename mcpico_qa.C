@@ -209,7 +209,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       RVec<fourVector> result;
       for (auto &p:_p)
         {
-          if (abs(p.Rapidity()+Y_BEAM)<0.1 && p.Pt()<0.2 && abs(p.E() - sNN/2.)<0.2) // target candidate
+          if (abs(p.Rapidity()+Y_BEAM)<0.1 && p.Pt()<0.4 && abs(p.E() - sNN/2.)<0.2) // target candidate
             result.push_back(p);
         } return result;
     }, {"protons"})
@@ -217,7 +217,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       RVec<fourVector> result;
       for (auto &p:_p)
         {
-          if (abs(p.Rapidity()-Y_BEAM)<0.1 && p.Pt()<0.2 && abs(p.E() - sNN/2.)<0.2) // projectile candidate
+          if (abs(p.Rapidity()-Y_BEAM)<0.1 && p.Pt()<0.4 && abs(p.E() - sNN/2.)<0.2) // projectile candidate
             result.push_back(p);
         } return result;
     }, {"protons"})

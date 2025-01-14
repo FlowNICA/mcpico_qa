@@ -112,6 +112,21 @@ void draw_qa()
     h1_pionM_en.first->SetLineColor(kRed+1); h1_pionM_en.second->SetLineColor(kBlue+1);
     h1_pionP_en.first->SetLineColor(kRed+1); h1_pionP_en.second->SetLineColor(kBlue+1);
 
+    h1_prot_targ_N.first->GetXaxis()->SetRangeUser(0.,50.); h1_prot_targ_N.second->GetXaxis()->SetRangeUser(0.,50.);
+    h1_prot_targ_N.first->GetYaxis()->SetRangeUser(0.,900.); h1_prot_targ_N.second->GetYaxis()->SetRangeUser(0.,900.);
+    h1_prot_proj_N.first->GetXaxis()->SetRangeUser(0.,50.); h1_prot_proj_N.second->GetXaxis()->SetRangeUser(0.,50.);
+    h1_prot_proj_N.first->GetYaxis()->SetRangeUser(0.,900.); h1_prot_proj_N.second->GetYaxis()->SetRangeUser(0.,900.);
+    h1_prot_targ_proj_ratio.first->GetXaxis()->SetRangeUser(0.,15.); h1_prot_targ_proj_ratio.second->GetXaxis()->SetRangeUser(0.,15.);
+
+    h2_hadr_pTY.first->GetXaxis()->SetRangeUser(-1.6,1.6); h2_hadr_pTY.second->GetXaxis()->SetRangeUser(-1.6,1.6); 
+    h2_hadr_pTY.first->GetYaxis()->SetRangeUser(0.,2.); h2_hadr_pTY.second->GetYaxis()->SetRangeUser(0.,2.); 
+    h2_prot_pTY.first->GetXaxis()->SetRangeUser(-1.6,1.6); h2_prot_pTY.second->GetXaxis()->SetRangeUser(-1.6,1.6); 
+    h2_prot_pTY.first->GetYaxis()->SetRangeUser(0.,2.); h2_prot_pTY.second->GetYaxis()->SetRangeUser(0.,2.);
+    h2_pionM_pTY.first->GetXaxis()->SetRangeUser(-2.,2.); h2_pionM_pTY.second->GetXaxis()->SetRangeUser(-2.,2.); 
+    h2_pionM_pTY.first->GetYaxis()->SetRangeUser(0.,1.); h2_pionM_pTY.second->GetYaxis()->SetRangeUser(0.,1.);
+    h2_pionP_pTY.first->GetXaxis()->SetRangeUser(-2.,2.); h2_pionP_pTY.second->GetXaxis()->SetRangeUser(-2.,2.); 
+    h2_pionP_pTY.first->GetYaxis()->SetRangeUser(0.,1.); h2_pionP_pTY.second->GetYaxis()->SetRangeUser(0.,1.);
+
     gSystem->Exec("mkdir -p ./draw");
 
     TCanvas *canv_700x500 = new TCanvas("canv_700x500", "canv_700x500", 700, 500);
