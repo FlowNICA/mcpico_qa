@@ -100,6 +100,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return result;
     }, {"particles"})
     .Define("phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"particles"})
+    .Define("dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"particles", "psi_rp"})
     .Define("eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"particles"})
     .Define("pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; }, {"particles"})
     .Define("px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; }, {"particles"})
@@ -126,6 +127,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
     .Define("kaonsM", [](RVec<fourVector> _p, RVec<int> _pid){ RVec<fourVector> result; for (int i=0; i<_pid.size(); i++){auto pid = _pid.at(i); if (!pid) continue; result.push_back(_p.at(i));} return result; }, {"particles", "is_kaonM"})
     .Define("kaonsP", [](RVec<fourVector> _p, RVec<int> _pid){ RVec<fourVector> result; for (int i=0; i<_pid.size(); i++){auto pid = _pid.at(i); if (!pid) continue; result.push_back(_p.at(i));} return result; }, {"particles", "is_kaonP"})
     .Define("prot_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"protons"})
+    .Define("prot_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"protons", "psi_rp"})
     .Define("prot_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"protons"})
     .Define("prot_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"protons"})
     .Define("prot_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"protons"})
@@ -142,6 +144,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return y;
     }, {"protons"})
     .Define("pionM_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"pionsM"})
+    .Define("pionM_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"pionsM", "psi_rp"})
     .Define("pionM_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"pionsM"})
     .Define("pionM_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"pionsM"})
     .Define("pionM_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"pionsM"})
@@ -158,6 +161,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return y;
     }, {"pionsM"})
     .Define("pionP_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"pionsP"})
+    .Define("pionP_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"pionsP", "psi_rp"})
     .Define("pionP_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"pionsP"})
     .Define("pionP_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"pionsP"})
     .Define("pionP_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"pionsP"})
@@ -174,6 +178,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return y;
     }, {"pionsP"})
     .Define("kaonM_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"kaonsM"})
+    .Define("kaonM_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"kaonsM", "psi_rp"})
     .Define("kaonM_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"kaonsM"})
     .Define("kaonM_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"kaonsM"})
     .Define("kaonM_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"kaonsM"})
@@ -190,6 +195,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return y;
     }, {"kaonsM"})
     .Define("kaonP_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"kaonsP"})
+    .Define("kaonP_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"kaonsP", "psi_rp"})
     .Define("kaonP_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"kaonsP"})
     .Define("kaonP_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"kaonsP"})
     .Define("kaonP_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"kaonsP"})
@@ -222,6 +228,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
         } return result;
     }, {"protons"})
     .Define("prot_targ_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"protons_target"})
+    .Define("prot_targ_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"protons_target", "psi_rp"})
     .Define("prot_targ_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"protons_target"})
     .Define("prot_targ_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"protons_target"})
     .Define("prot_targ_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"protons_target"})
@@ -238,6 +245,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return y;
     }, {"protons_target"})
     .Define("prot_proj_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"protons_projectile"})
+    .Define("prot_proj_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"protons_projectile", "psi_rp"})
     .Define("prot_proj_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"protons_projectile"})
     .Define("prot_proj_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"protons_projectile"})
     .Define("prot_proj_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"protons_projectile"})
@@ -296,6 +304,27 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
   hists.push_back(dd.Histo1D({"h1_prot_targ_N","Number of target protons;N_{targ}",500,0.,500.},     "N_prot_targ"));
   hists.push_back(dd.Histo1D({"h1_prot_proj_N","Number of projectile protons;N_{proj}",500,0.,500.}, "N_prot_proj"));
   hists.push_back(dd.Histo1D({"h1_prot_targ_proj_ratio","N_{targ}/N_{proj} pf protons;N_{targ}/N_{proj}",500,0.,50.}, "N_prot_targ_proj_ratio"));
+
+  hists2d.push_back(dd.Histo2D({"h2_hadr_dPhiPt","#varphi-p_{T} acceptance;y;p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "dphi", "pT"));
+  hists2d.push_back(dd.Histo2D({"h2_prot_dPhiPt","#varphi-p_{T} acceptance (p);y;p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "prot_dphi", "prot_pT"));
+  hists2d.push_back(dd.Histo2D({"h2_pionM_dPhiPt","#varphi-p_{T} acceptance (#pi^{-});y;p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "pionM_dphi", "pionM_pT"));
+  hists2d.push_back(dd.Histo2D({"h2_pionP_dPhiPt","#varphi-p_{T} acceptance (#pi^{+});y;p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "pionP_dphi", "pionP_pT"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonM_dPhiPt","#varphi-p_{T} acceptance (#pi^{-});y;p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "kaonM_dphi", "kaonM_pT"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonP_dPhiPt","#varphi-p_{T} acceptance (#pi^{+});y;p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "kaonP_dphi", "kaonP_pT"));
+
+  hists2d.push_back(dd.Histo2D({"h2_hadr_dPhiY","#varphi-y acceptance;y;y",500,-5.,5.,500,0.,5.}, "dphi", "y"));
+  hists2d.push_back(dd.Histo2D({"h2_prot_dPhiY","#varphi-y acceptance (p);y;y",500,-5.,5.,500,0.,5.}, "prot_dphi", "prot_y"));
+  hists2d.push_back(dd.Histo2D({"h2_pionM_dPhiY","#varphi-y acceptance (#pi^{-});y;y",500,-5.,5.,500,0.,5.}, "pionM_dphi", "pionM_y"));
+  hists2d.push_back(dd.Histo2D({"h2_pionP_dPhiY","#varphi-y acceptance (#pi^{+});y;y",500,-5.,5.,500,0.,5.}, "pionP_dphi", "pionP_y"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonM_dPhiY","#varphi-y acceptance (#pi^{-});y;y",500,-5.,5.,500,0.,5.}, "kaonM_dphi", "kaonM_y"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonP_dPhiY","#varphi-y acceptance (#pi^{+});y;y",500,-5.,5.,500,0.,5.}, "kaonP_dphi", "kaonP_y"));
+
+  hists2d.push_back(dd.Histo2D({"h2_hadr_dPhipz","#varphi-p_{z} acceptance;y;p_{z} (GeV/c)",500,-5.,5.,500,0.,5.}, "dphi", "pz"));
+  hists2d.push_back(dd.Histo2D({"h2_prot_dPhipz","#varphi-p_{z} acceptance (p);y;p_{z} (GeV/c)",500,-5.,5.,500,0.,5.}, "prot_dphi", "prot_pz"));
+  hists2d.push_back(dd.Histo2D({"h2_pionM_dPhipz","#varphi-p_{z} acceptance (#pi^{-});y;p_{z} (GeV/c)",500,-5.,5.,500,0.,5.}, "pionM_dphi", "pionM_pz"));
+  hists2d.push_back(dd.Histo2D({"h2_pionP_dPhipz","#varphi-p_{z} acceptance (#pi^{+});y;p_{z} (GeV/c)",500,-5.,5.,500,0.,5.}, "pionP_dphi", "pionP_pz"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonM_dPhipz","#varphi-p_{z} acceptance (#pi^{-});y;p_{z} (GeV/c)",500,-5.,5.,500,0.,5.}, "kaonM_dphi", "kaonM_pz"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonP_dPhipz","#varphi-p_{z} acceptance (#pi^{+});y;p_{z} (GeV/c)",500,-5.,5.,500,0.,5.}, "kaonP_dphi", "kaonP_pz"));
   
   hists2d.push_back(dd.Histo2D({"h2_hadr_pTY","p_{T}-Y acceptance;y;p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "y", "pT"));
   hists2d.push_back(dd.Histo2D({"h2_prot_pTY","p_{T}-Y acceptance (p);y;p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "prot_y", "prot_pT"));
@@ -331,6 +360,34 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
   hists2d.push_back(dd.Histo2D({"h2_pionP_enY","E-Y acceptance (#pi^{+});y;E (GeV)",500,-5.,5.,500,0.,5.}, "pionP_y", "pionP_en"));
   hists2d.push_back(dd.Histo2D({"h2_kaonM_enY","E-Y acceptance (#pi^{-});y;E (GeV)",500,-5.,5.,500,0.,5.}, "kaonM_y", "kaonM_en"));
   hists2d.push_back(dd.Histo2D({"h2_kaonP_enY","E-Y acceptance (#pi^{+});y;E (GeV)",500,-5.,5.,500,0.,5.}, "kaonP_y", "kaonP_en"));
+
+  hists2d.push_back(dd.Histo2D({"h2_hadr_pTpz","p_{T}-p_{z} acceptance;p_{z} (GeV/c);p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "pz", "pT"));
+  hists2d.push_back(dd.Histo2D({"h2_prot_pTpz","p_{T}-p_{z} acceptance (p);p_{z} (GeV/c);p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "prot_pz", "prot_pT"));
+  hists2d.push_back(dd.Histo2D({"h2_pionM_pTpz","p_{T}-p_{z} acceptance (#pi^{-});p_{z} (GeV/c);p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "pionM_pz", "pionM_pT"));
+  hists2d.push_back(dd.Histo2D({"h2_pionP_pTpz","p_{T}-p_{z} acceptance (#pi^{+});p_{z} (GeV/c);p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "pionP_pz", "pionP_pT"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonM_pTpz","p_{T}-p_{z} acceptance (#pi^{-});p_{z} (GeV/c);p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "kaonM_pz", "kaonM_pT"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonP_pTpz","p_{T}-p_{z} acceptance (#pi^{+});p_{z} (GeV/c);p_{T} (GeV/c)",500,-5.,5.,500,0.,5.}, "kaonP_pz", "kaonP_pT"));
+
+  hists2d.push_back(dd.Histo2D({"h2_hadr_pxpz","p_{x}-p_{z} acceptance;p_{z} (GeV/c);p_{x} (GeV/c)",500,-5.,5.,500,0.,5.}, "pz", "px"));
+  hists2d.push_back(dd.Histo2D({"h2_prot_pxpz","p_{x}-p_{z} acceptance (p);p_{z} (GeV/c);p_{x} (GeV/c)",500,-5.,5.,500,0.,5.}, "prot_pz", "prot_px"));
+  hists2d.push_back(dd.Histo2D({"h2_pionM_pxpz","p_{x}-p_{z} acceptance (#pi^{-});p_{z} (GeV/c);p_{x} (GeV/c)",500,-5.,5.,500,0.,5.}, "pionM_pz", "pionM_px"));
+  hists2d.push_back(dd.Histo2D({"h2_pionP_pxpz","p_{x}-p_{z} acceptance (#pi^{+});p_{z} (GeV/c);p_{x} (GeV/c)",500,-5.,5.,500,0.,5.}, "pionP_pz", "pionP_px"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonM_pxpz","p_{x}-p_{z} acceptance (#pi^{-});p_{z} (GeV/c);p_{x} (GeV/c)",500,-5.,5.,500,0.,5.}, "kaonM_pz", "kaonM_px"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonP_pxpz","p_{x}-p_{z} acceptance (#pi^{+});p_{z} (GeV/c);p_{x} (GeV/c)",500,-5.,5.,500,0.,5.}, "kaonP_pz", "kaonP_px"));
+
+  hists2d.push_back(dd.Histo2D({"h2_hadr_pypz","p_{y}-p_{z} acceptance;p_{z} (GeV/c);p_{y} (GeV/c)",500,-5.,5.,500,0.,5.}, "pz", "py"));
+  hists2d.push_back(dd.Histo2D({"h2_prot_pypz","p_{y}-p_{z} acceptance (p);p_{z} (GeV/c);p_{y} (GeV/c)",500,-5.,5.,500,0.,5.}, "prot_pz", "prot_py"));
+  hists2d.push_back(dd.Histo2D({"h2_pionM_pypz","p_{y}-p_{z} acceptance (#pi^{-});p_{z} (GeV/c);p_{y} (GeV/c)",500,-5.,5.,500,0.,5.}, "pionM_pz", "pionM_py"));
+  hists2d.push_back(dd.Histo2D({"h2_pionP_pypz","p_{y}-p_{z} acceptance (#pi^{+});p_{z} (GeV/c);p_{y} (GeV/c)",500,-5.,5.,500,0.,5.}, "pionP_pz", "pionP_py"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonM_pypz","p_{y}-p_{z} acceptance (#pi^{-});p_{z} (GeV/c);p_{y} (GeV/c)",500,-5.,5.,500,0.,5.}, "kaonM_pz", "kaonM_py"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonP_pypz","p_{y}-p_{z} acceptance (#pi^{+});p_{z} (GeV/c);p_{y} (GeV/c)",500,-5.,5.,500,0.,5.}, "kaonP_pz", "kaonP_py"));
+
+  hists2d.push_back(dd.Histo2D({"h2_hadr_enpz","E-p_{z} acceptance;p_{z} (GeV/c);E (GeV)",500,-5.,5.,500,0.,5.}, "pz", "en"));
+  hists2d.push_back(dd.Histo2D({"h2_prot_enpz","E-p_{z} acceptance (p);p_{z} (GeV/c);E (GeV)",500,-5.,5.,500,0.,5.}, "prot_pz", "prot_en"));
+  hists2d.push_back(dd.Histo2D({"h2_pionM_enpz","E-p_{z} acceptance (#pi^{-});p_{z} (GeV/c);E (GeV)",500,-5.,5.,500,0.,5.}, "pionM_pz", "pionM_en"));
+  hists2d.push_back(dd.Histo2D({"h2_pionP_enpz","E-p_{z} acceptance (#pi^{+});p_{z} (GeV/c);E (GeV)",500,-5.,5.,500,0.,5.}, "pionP_pz", "pionP_en"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonM_enpz","E-p_{z} acceptance (#pi^{-});p_{z} (GeV/c);E (GeV)",500,-5.,5.,500,0.,5.}, "kaonM_pz", "kaonM_en"));
+  hists2d.push_back(dd.Histo2D({"h2_kaonP_enpz","E-p_{z} acceptance (#pi^{+});p_{z} (GeV/c);E (GeV)",500,-5.,5.,500,0.,5.}, "kaonP_pz", "kaonP_en"));
 
   fOut.cd();
   for (auto& hist:hists)
