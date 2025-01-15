@@ -100,7 +100,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return result;
     }, {"particles"})
     .Define("phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"particles"})
-    .Define("dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"particles", "psi_rp"})
+    .Define("dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-_psi);} return phi; }, {"particles", "psi_rp"})
     .Define("eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"particles"})
     .Define("pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; }, {"particles"})
     .Define("px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; }, {"particles"})
@@ -127,7 +127,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
     .Define("kaonsM", [](RVec<fourVector> _p, RVec<int> _pid){ RVec<fourVector> result; for (int i=0; i<_pid.size(); i++){auto pid = _pid.at(i); if (!pid) continue; result.push_back(_p.at(i));} return result; }, {"particles", "is_kaonM"})
     .Define("kaonsP", [](RVec<fourVector> _p, RVec<int> _pid){ RVec<fourVector> result; for (int i=0; i<_pid.size(); i++){auto pid = _pid.at(i); if (!pid) continue; result.push_back(_p.at(i));} return result; }, {"particles", "is_kaonP"})
     .Define("prot_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"protons"})
-    .Define("prot_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"protons", "psi_rp"})
+    .Define("prot_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-_psi);} return phi; }, {"protons", "psi_rp"})
     .Define("prot_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"protons"})
     .Define("prot_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"protons"})
     .Define("prot_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"protons"})
@@ -144,7 +144,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return y;
     }, {"protons"})
     .Define("pionM_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"pionsM"})
-    .Define("pionM_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"pionsM", "psi_rp"})
+    .Define("pionM_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-_psi);} return phi; }, {"pionsM", "psi_rp"})
     .Define("pionM_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"pionsM"})
     .Define("pionM_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"pionsM"})
     .Define("pionM_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"pionsM"})
@@ -161,7 +161,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return y;
     }, {"pionsM"})
     .Define("pionP_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"pionsP"})
-    .Define("pionP_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"pionsP", "psi_rp"})
+    .Define("pionP_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-_psi);} return phi; }, {"pionsP", "psi_rp"})
     .Define("pionP_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"pionsP"})
     .Define("pionP_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"pionsP"})
     .Define("pionP_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"pionsP"})
@@ -178,7 +178,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return y;
     }, {"pionsP"})
     .Define("kaonM_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"kaonsM"})
-    .Define("kaonM_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"kaonsM", "psi_rp"})
+    .Define("kaonM_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-_psi);} return phi; }, {"kaonsM", "psi_rp"})
     .Define("kaonM_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"kaonsM"})
     .Define("kaonM_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"kaonsM"})
     .Define("kaonM_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"kaonsM"})
@@ -195,7 +195,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return y;
     }, {"kaonsM"})
     .Define("kaonP_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"kaonsP"})
-    .Define("kaonP_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"kaonsP", "psi_rp"})
+    .Define("kaonP_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-_psi);} return phi; }, {"kaonsP", "psi_rp"})
     .Define("kaonP_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"kaonsP"})
     .Define("kaonP_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"kaonsP"})
     .Define("kaonP_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"kaonsP"})
@@ -228,7 +228,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
         } return result;
     }, {"protons"})
     .Define("prot_targ_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"protons_target"})
-    .Define("prot_targ_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"protons_target", "psi_rp"})
+    .Define("prot_targ_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-_psi);} return phi; }, {"protons_target", "psi_rp"})
     .Define("prot_targ_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"protons_target"})
     .Define("prot_targ_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"protons_target"})
     .Define("prot_targ_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"protons_target"})
@@ -245,7 +245,7 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       return y;
     }, {"protons_target"})
     .Define("prot_proj_phi", [](RVec<fourVector> _p){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi());} return phi; }, {"protons_projectile"})
-    .Define("prot_proj_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-psi);} return phi; }, {"protons_projectile", "psi_rp"})
+    .Define("prot_proj_dphi", [](RVec<fourVector> _p, float _psi){ vector<float> phi; for (auto &p:_p){phi.push_back((float)p.Phi()-_psi);} return phi; }, {"protons_projectile", "psi_rp"})
     .Define("prot_proj_eta", [](RVec<fourVector> _p){ vector<float> eta; for (auto &p:_p){eta.push_back((float)p.Eta());} return eta; }, {"protons_projectile"})
     .Define("prot_proj_pT", [](RVec<fourVector> _p){ vector<float> pt; for (auto &p:_p){pt.push_back((float)p.Pt());} return pt; },      {"protons_projectile"})
     .Define("prot_proj_px", [](RVec<fourVector> _p){ vector<float> px; for (auto &p:_p){px.push_back((float)p.Px());} return px; },      {"protons_projectile"})
