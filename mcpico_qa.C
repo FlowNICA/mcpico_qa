@@ -3,9 +3,9 @@ using namespace ROOT::Math;
 using namespace ROOT::RDF;
 using fourVector=LorentzVector<PxPyPzE4D<double>>;
 
-void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energy="2.4", std::string Cms="true")
+void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energy="2.4", std::string Boost="0")
 {
-  const bool isCms = (bool)std::stoi(Cms);
+  const int SysId = (int)std::stoi(Boost); // 0 - no boost, 1 - lab(targ)->cm, 2 - proj->cm
   const double sNN = std::stod( cm_energy ); // in GeV
   const double M = 0.938; // in GeV/c^2
   const double T = sNN*sNN/(2.*M) - 2.*M;
@@ -63,16 +63,21 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
       std::uniform_real_distribution<float> distribution(-1.*Pi(),Pi()); // distribution in range [-pi, pi]
       return distribution(generator);
     }, {} )
-    .Define("particles", [GAMMA_CM,BETA_CM,isCms](RVec<float> &_px, RVec<float> &_py, RVec<float> &_pz, RVec<float> &_en, float _psi){
+    .Define("particles", [GAMMA_CM,BETA_CM,SysId](RVec<float> &_px, RVec<float> &_py, RVec<float> &_pz, RVec<float> &_en, float _psi){
       RVec<fourVector> p;
       int Np = _px.size();
       for (int i=0; i<Np; i++){
         auto px_0 = _px.at(i);
         auto py_0 = _py.at(i);
         auto pt = sqrt(px_0*px_0+py_0*py_0);
-        auto pz = (isCms) ? _pz.at(i) : GAMMA_CM*(_pz.at(i) - BETA_CM*_en.at(i));
-        auto mass = sqrt( _en.at(i)*_en.at(i) - pt*pt - _pz.at(i)*_pz.at(i) );
-        auto en = (isCms) ? _en.at(i) : GAMMA_CM*(_en.at(i) - BETA_CM*_pz.at(i)); //sqrt( mass*mass + pt*pt + pz*pz );
+        auto pz_0 = _pz.at(i);
+        auto en_0 = _en.at(i);
+        auto pz = (float)0.;
+        if (SysId == 0) pz = pz_0;
+        if (SysId == 1) pz = GAMMA_CM*(pz_0 - BETA_CM*en_0);
+        if (SysId == 2) pz = GAMMA_CM*(pz_0 + BETA_CM*en_0);
+        auto mass = sqrt( en_0*en_0 - pt*pt - pz_0*pz_0 );
+        auto en = sqrt(pt*pt + pz*pz + mass*mass);
         auto phi = atan2(py_0, px_0);
         phi += _psi;
         auto px_1 = pt*cos(phi);
@@ -107,12 +112,10 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
     .Define("py", [](RVec<fourVector> _p){ vector<float> py; for (auto &p:_p){py.push_back((float)p.Py());} return py; }, {"particles"})
     .Define("pz", [](RVec<fourVector> _p){ vector<float> pz; for (auto &p:_p){pz.push_back((float)p.Pz());} return pz; }, {"particles"})
     .Define("en", [](RVec<fourVector> _p){ vector<float> e;  for (auto &p:_p){e.push_back((float)p.E());}   return e; },  {"particles"})
-    .Define("y", [Y_BEAM,isCms](RVec<fourVector> _p){
+    .Define("y", [Y_BEAM](RVec<fourVector> _p){
       vector<float> y;
       for (auto &p:_p){
         y.push_back((float)p.Rapidity());
-        //if (isCms) y.push_back((float)p.Rapidity());
-        //else y.push_back((float)(p.Rapidity() - Y_BEAM));
       }
       return y;
     }, {"particles"})
@@ -134,12 +137,10 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
     .Define("prot_py", [](RVec<fourVector> _p){ vector<float> py; for (auto &p:_p){py.push_back((float)p.Py());} return py; },      {"protons"})
     .Define("prot_pz", [](RVec<fourVector> _p){ vector<float> pz; for (auto &p:_p){pz.push_back((float)p.Pz());} return pz; },      {"protons"})
     .Define("prot_en", [](RVec<fourVector> _p){ vector<float> e;  for (auto &p:_p){e.push_back((float)p.E());}   return e; },       {"protons"})
-    .Define("prot_y", [Y_BEAM,isCms](RVec<fourVector> _p){
+    .Define("prot_y", [Y_BEAM](RVec<fourVector> _p){
       vector<float> y;
       for (auto &p:_p){
         y.push_back((float)p.Rapidity());
-        //if (isCms) y.push_back((float)p.Rapidity());
-        //else y.push_back((float)(p.Rapidity() - Y_BEAM));
       }
       return y;
     }, {"protons"})
@@ -151,12 +152,10 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
     .Define("pionM_py", [](RVec<fourVector> _p){ vector<float> py; for (auto &p:_p){py.push_back((float)p.Py());} return py; },      {"pionsM"})
     .Define("pionM_pz", [](RVec<fourVector> _p){ vector<float> pz; for (auto &p:_p){pz.push_back((float)p.Pz());} return pz; },      {"pionsM"})
     .Define("pionM_en", [](RVec<fourVector> _p){ vector<float> e;  for (auto &p:_p){e.push_back((float)p.E());}   return e; },       {"pionsM"})
-    .Define("pionM_y", [Y_BEAM,isCms](RVec<fourVector> _p){
+    .Define("pionM_y", [Y_BEAM](RVec<fourVector> _p){
       vector<float> y;
       for (auto &p:_p){
         y.push_back((float)p.Rapidity());
-        //if (isCms) y.push_back((float)p.Rapidity());
-        //else y.push_back((float)(p.Rapidity() - Y_BEAM));
       }
       return y;
     }, {"pionsM"})
@@ -168,12 +167,10 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
     .Define("pionP_py", [](RVec<fourVector> _p){ vector<float> py; for (auto &p:_p){py.push_back((float)p.Py());} return py; },      {"pionsP"})
     .Define("pionP_pz", [](RVec<fourVector> _p){ vector<float> pz; for (auto &p:_p){pz.push_back((float)p.Pz());} return pz; },      {"pionsP"})
     .Define("pionP_en", [](RVec<fourVector> _p){ vector<float> e;  for (auto &p:_p){e.push_back((float)p.E());}   return e; },       {"pionsP"})
-    .Define("pionP_y", [Y_BEAM,isCms](RVec<fourVector> _p){
+    .Define("pionP_y", [Y_BEAM](RVec<fourVector> _p){
       vector<float> y;
       for (auto &p:_p){
         y.push_back((float)p.Rapidity());
-        //if (isCms) y.push_back((float)p.Rapidity());
-        //else y.push_back((float)(p.Rapidity() - Y_BEAM));
       }
       return y;
     }, {"pionsP"})
@@ -185,12 +182,10 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
     .Define("kaonM_py", [](RVec<fourVector> _p){ vector<float> py; for (auto &p:_p){py.push_back((float)p.Py());} return py; },      {"kaonsM"})
     .Define("kaonM_pz", [](RVec<fourVector> _p){ vector<float> pz; for (auto &p:_p){pz.push_back((float)p.Pz());} return pz; },      {"kaonsM"})
     .Define("kaonM_en", [](RVec<fourVector> _p){ vector<float> e;  for (auto &p:_p){e.push_back((float)p.E());}   return e; },       {"kaonsM"})
-    .Define("kaonM_y", [Y_BEAM,isCms](RVec<fourVector> _p){
+    .Define("kaonM_y", [Y_BEAM](RVec<fourVector> _p){
       vector<float> y;
       for (auto &p:_p){
         y.push_back((float)p.Rapidity());
-        //if (isCms) y.push_back((float)p.Rapidity());
-        //else y.push_back((float)(p.Rapidity() - Y_BEAM));
       }
       return y;
     }, {"kaonsM"})
@@ -202,12 +197,10 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
     .Define("kaonP_py", [](RVec<fourVector> _p){ vector<float> py; for (auto &p:_p){py.push_back((float)p.Py());} return py; },      {"kaonsP"})
     .Define("kaonP_pz", [](RVec<fourVector> _p){ vector<float> pz; for (auto &p:_p){pz.push_back((float)p.Pz());} return pz; },      {"kaonsP"})
     .Define("kaonP_en", [](RVec<fourVector> _p){ vector<float> e;  for (auto &p:_p){e.push_back((float)p.E());}   return e; },       {"kaonsP"})
-    .Define("kaonP_y", [Y_BEAM,isCms](RVec<fourVector> _p){
+    .Define("kaonP_y", [Y_BEAM](RVec<fourVector> _p){
       vector<float> y;
       for (auto &p:_p){
         y.push_back((float)p.Rapidity());
-        //if (isCms) y.push_back((float)p.Rapidity());
-        //else y.push_back((float)(p.Rapidity() - Y_BEAM));
       }
       return y;
     }, {"kaonsP"})
@@ -235,12 +228,10 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
     .Define("prot_targ_py", [](RVec<fourVector> _p){ vector<float> py; for (auto &p:_p){py.push_back((float)p.Py());} return py; },      {"protons_target"})
     .Define("prot_targ_pz", [](RVec<fourVector> _p){ vector<float> pz; for (auto &p:_p){pz.push_back((float)p.Pz());} return pz; },      {"protons_target"})
     .Define("prot_targ_en", [](RVec<fourVector> _p){ vector<float> e;  for (auto &p:_p){e.push_back((float)p.E());}   return e; },       {"protons_target"})
-    .Define("prot_targ_y", [Y_BEAM,isCms](RVec<fourVector> _p){
+    .Define("prot_targ_y", [Y_BEAM](RVec<fourVector> _p){
       vector<float> y;
       for (auto &p:_p){
         y.push_back((float)p.Rapidity());
-        //if (isCms) y.push_back((float)p.Rapidity());
-        //else y.push_back((float)(p.Rapidity() - Y_BEAM));
       }
       return y;
     }, {"protons_target"})
@@ -252,12 +243,10 @@ void mcpico_qa(std::string infilelist, std::string outfile, std::string cm_energ
     .Define("prot_proj_py", [](RVec<fourVector> _p){ vector<float> py; for (auto &p:_p){py.push_back((float)p.Py());} return py; },      {"protons_projectile"})
     .Define("prot_proj_pz", [](RVec<fourVector> _p){ vector<float> pz; for (auto &p:_p){pz.push_back((float)p.Pz());} return pz; },      {"protons_projectile"})
     .Define("prot_proj_en", [](RVec<fourVector> _p){ vector<float> e;  for (auto &p:_p){e.push_back((float)p.E());}   return e; },       {"protons_projectile"})
-    .Define("prot_proj_y", [Y_BEAM,isCms](RVec<fourVector> _p){
+    .Define("prot_proj_y", [Y_BEAM](RVec<fourVector> _p){
       vector<float> y;
       for (auto &p:_p){
         y.push_back((float)p.Rapidity());
-        //if (isCms) y.push_back((float)p.Rapidity());
-        //else y.push_back((float)(p.Rapidity() - Y_BEAM));
       }
       return y;
     }, {"protons_projectile"})

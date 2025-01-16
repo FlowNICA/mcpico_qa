@@ -1,7 +1,10 @@
 void draw_qa()
 {
-    TFile *fi_cld = new TFile("~/test_qa_cld.root","read");
-    TFile *fi_fxt = new TFile("~/test_qa_fxt.root","read");
+    TFile *fi_cld = new TFile("~/test_qa_cascade_cld.root","read");
+    TFile *fi_fxt = new TFile("~/test_qa_cascade_fxt.root","read");
+
+    // TFile *fi_cld = new TFile("~/test_qa_cld.root","read");
+    // TFile *fi_fxt = new TFile("~/test_qa_fxt.root","read");
 
     std::pair<std::unique_ptr<TH1D>,unique_ptr<TH1D>> h1_b{(TH1D*)fi_cld->Get("h1_b"), (TH1D*)fi_fxt->Get("h1_b")};
     std::pair<std::unique_ptr<TH1D>,unique_ptr<TH1D>> h1_prot_targ_N{(TH1D*)fi_cld->Get("h1_prot_targ_N"), (TH1D*)fi_fxt->Get("h1_prot_targ_N")};
